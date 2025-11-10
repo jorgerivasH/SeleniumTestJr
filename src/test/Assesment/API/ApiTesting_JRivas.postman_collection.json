@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "c2ad5e42-2cc9-4420-b80c-c3f39a9dc175",
+		"name": "ApiTesting_JRivas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18543787"
+	},
+	"item": [
+		{
+			"name": "API01-GetAllUserInformationReq",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"User fields exist in all items\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    // Validating that 'data' is array",
+							"    pm.expect(jsonData.data).to.be.an(\"array\").that.is.not.empty;",
+							"",
+							"    // Validate user data",
+							"    jsonData.data.forEach(function (user) {",
+							"        pm.expect(user).to.have.property(\"id\");",
+							"        pm.expect(user).to.have.property(\"email\");",
+							"        pm.expect(user).to.have.property(\"first_name\");",
+							"        pm.expect(user).to.have.property(\"last_name\");",
+							"        pm.expect(user).to.have.property(\"avatar\");",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users?page=2",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API02-GetSingleUserReq",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(200);",
+							"});",
+							"",
+							"// Validate user id = 2",
+							"pm.test(\"User with id = 2 exists and fields are correct\", function () {",
+							"  var jsonData = pm.response.json();",
+							"  pm.expect(jsonData.data.id).to.eql(2);",
+							"  pm.expect(jsonData.data).to.have.property(\"email\");",
+							"  pm.expect(jsonData.data).to.have.property(\"first_name\");",
+							"  pm.expect(jsonData.data).to.have.property(\"last_name\");",
+							"  pm.expect(jsonData.data).to.have.property(\"avatar\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users/2",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API03-CreateUserReq",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"  pm.response.to.have.status(201);",
+							"});",
+							"",
+							"// Verify that the response contain the expected fields",
+							"pm.test(\"Response has all required fields\", function () {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"id\");",
+							"    pm.expect(jsonData).to.have.property(\"createdAt\");",
+							"    pm.expect(jsonData).to.have.property(\"email\");",
+							"    pm.expect(jsonData).to.have.property(\"password\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "reqres-free-v1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"eve.holt@reqres.in\",\n    \"password\": \"pistol\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/api/users",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer"
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": ""
+		}
+	]
+}
